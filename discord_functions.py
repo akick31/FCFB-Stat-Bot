@@ -5,9 +5,6 @@ from sheets_functions import *
 with open('config.json', 'r') as config_file:
     config_data = json.load(config_file)
 
-with open('team_info.json', 'r') as config_file:
-    team_info_data = json.load(config_file)
-
 """
 Login to Discord and run the bot
 
@@ -21,9 +18,10 @@ def login_discord():
 
     @client.event
     async def on_message(message):
-        message = message.content.lower()
-        if message.startswith('$start'):
-            update_all_teams()
+        msg = message.content.lower()
+        if msg.startswith('$start'):
+            await message.channel.send("Updating teams in the stat sheet")
+            await update_all_teams(client)
 
     @client.event
     async def on_ready():
@@ -34,10 +32,3 @@ def login_discord():
         print('------')
 
     client.run(token)
-
-
-"""
-Search through season scores channel and count up information
-"""
-
-def search_season_scores(team, season_num):

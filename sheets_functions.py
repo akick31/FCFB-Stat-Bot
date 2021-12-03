@@ -1,7 +1,7 @@
 import gspread
 import json
 from oauth2client.service_account import ServiceAccountCredentials
-from discord_functions import *
+from util import *
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
@@ -21,7 +21,7 @@ Update every single team
 """
 
 
-def update_all_teams():
+async def update_all_teams(client):
     team_column = all_teams.col_values(3)
 
     # Remove blank and "Team" cell
@@ -31,7 +31,7 @@ def update_all_teams():
     for team in team_column:
         num_seasons = int(config_data['num_seasons'])
         for i in range(1, num_seasons + 1):
-            season_num = i
-            search_season_scores(team, season_num)
+            season_num = str(i)
+            await search_season_scores(client, team, season_num)
 
 
